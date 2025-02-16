@@ -4,7 +4,7 @@
 # - Manual options chosen
 #   - locale en_US.UTF-8 -> option 97
 #
-sudo apt-get install -y unzip
+#sudo apt-get install -y unzip
 # Cleanup previous run
 #sudo rm -rf ./chroot
 
@@ -95,7 +95,7 @@ function customize_image() {
 	openssh-server
 
     
-    systemctl enable ssh
+    #systemctl enable ssh
 
 }
 

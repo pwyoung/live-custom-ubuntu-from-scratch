@@ -168,6 +168,13 @@ EOF
 function build_image() {
     echo "=====> running build_image ..."
 
+    if ! command -v unzip; then
+	echo "unzip was not found"
+	apt-get install -y unzip
+    else
+	echo "unzip was found"
+    fi
+
     rm -rf /image
 
     mkdir -p /image/{casper,isolinux,install}
