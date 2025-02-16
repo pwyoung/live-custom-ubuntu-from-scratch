@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Set up a machine as an Ansible Target
+
 github_users=("pwyoung" "philwyoungatinsight") # Array of GitHub usernames
 
 if [[ $UID -ne 0 ]]; then
