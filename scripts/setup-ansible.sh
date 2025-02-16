@@ -1,10 +1,11 @@
 #!/bin/bash
 
+github_users=("pwyoung" "philwyoungatinsight") # Array of GitHub usernames
+
 if [[ $UID -ne 0 ]]; then
   echo "This script must be run as root."
   exit 1
 fi
-
 
 function add_packages() {
     apt update
@@ -37,7 +38,7 @@ function setup_ansible() {
     usermod -aG sudo ansible
 
     # Create the virtual environment (as ansible user, non-interactive)
-    su - ansible -c "python3 -m venv ansible_venv && source ansible_venv/bin/activate && pip install ansible && deactivate"
+    su - ansible -c "cd ~ && python3 -m venv ansible_venv && source ansible_venv/bin/activate && pip install ansible && deactivate"
 
     # Create the .ssh directory for the ansible user
     mkdir -p /home/ansible/.ssh
@@ -50,7 +51,7 @@ function setup_ansible() {
     touch /home/ansible/.ssh/authorized_keys
     chown ansible:ansible /home/ansible/.ssh/authorized_keys 
     chmod 600 /home/ansible/.ssh/authorized_keys
-    github_users=("pwyoung" "philwyoungatinsight") # Array of GitHub usernames
+    # Add SSH public keys (to authorized_keys)
     for user in "${github_users[@]}"; do
 	curl -s "https://api.github.com/users/$user/keys" | jq -r '.[].key' | while read key; do
 	    if ! grep -q "$key" /home/ansible/.ssh/authorized_keys; then
